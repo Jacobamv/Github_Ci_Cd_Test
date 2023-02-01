@@ -30,3 +30,12 @@ jobs:
           file: ./Dockerfile
           push: true
           tags: ${{ secrets.DOCKERHUB_USERNAME }}/github_ci_cd_test:latest
+
+      - name: executing remote ssh commands using password
+        uses: appleboy/ssh-action@v0.1.7
+        with:
+          host: ${{ secrets.SSH_HOST }}
+          username: ${{ secrets.SSH_USERNAME }}
+          password: ${{ secrets.SSH_PASSWORD }}
+          port: ${{ secrets.PORT }}
+          script: docker stop test && docker rm test && docker pull jacobamv/github_ci_cd_test:latest && docker  run --name test -p 8110:8181 -d jacobamv/github_ci_cd_test
