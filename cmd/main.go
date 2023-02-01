@@ -12,7 +12,7 @@ type Response struct{
 
 func TestHandler(w http.ResponseWriter, r *http.Request) {
 	response := Response{
-		Message: "Another test",
+		Message: "One another test",
 	}
 
 	w.Header().Set("Content-Type", "application/json")
