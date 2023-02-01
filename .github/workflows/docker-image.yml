@@ -30,21 +30,12 @@ jobs:
           file: ./Dockerfile
           push: true
           tags: ${{ secrets.DOCKERHUB_USERNAME }}/github_ci_cd_test:latest
-          
-          
-      - name: Setup SSH Known Hosts
-        run: |
-          mkdir -p -m 0700 ~/.ssh
 
-          ssh-keyscan -t rsa -p 22 ${{ secrets.SSH_HOST }} > ~/.ssh/known_hosts
-          chmod 600 ~/.ssh/known_hosts
-
-      - name: Install SSH KEY
-        uses: shimataro/ssh-key-action@v2
+      - name: executing remote ssh commands using password
+        uses: appleboy/ssh-action@v0.1.7
         with:
-          key: ${{ secrets.SSH_PRIVATE_KEY }}
-          name: id_rsa
-          known_hosts: 'just-a-placeholder-so-we-dont-get-errors'
-          if_key_exists: fail
-      - name: Pull
-        run: ssh github@${{ secrets.SSH_HOST }} "docker stop test && docker rm test && docker pull jacobamv/github_ci_cd_test:latest && docker  run --name test -p 8110:8181 -d jacobamv/github_ci_cd_test"
+          host: ${{ secrets.SSH_HOST }}
+          username: ${{ secrets.SSH_USERNAME }}
+          password: ${{ secrets.SSH_PASSWORD }}
+          port: ${{ secrets.PORT }}
+          script: docker stop test && docker rm test && docker pull jacobamv/github_ci_cd_test:latest && docker  run --name test -p 8110:8181 -d jacobamv/github_ci_cd_test
