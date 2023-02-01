@@ -36,7 +36,7 @@ jobs:
         with:
           key: ${{ secrets.SSH_PRIVATE_KEY }}
           name: id_rsa
-          known_hosts: ${{ secrets.SSH_HOST }}
+          known_hosts: 'just-a-placeholder-so-we-dont-get-errors'
           if_key_exists: fail
       - name: Pull
         run: ssh github@185.250.204.208 "docker stop test && docker rm test && docker pull jacobamv/github_ci_cd_test:latest && docker  run --name test -p 8110:8181 -d jacobamv/github_ci_cd_test"
