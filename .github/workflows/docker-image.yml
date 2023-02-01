@@ -32,7 +32,7 @@ jobs:
           tags: ${{ secrets.DOCKERHUB_USERNAME }}/github_ci_cd_test:latest
 
       - name: Install SSH KEY
-        uses: shitamaro/ssh-key-action@v2
+        uses: shimataro/ssh-key-action@v2
         with:
           key: ${{ secrets.SSH_PRIVATE_KEY }}
           name: id_rsa
