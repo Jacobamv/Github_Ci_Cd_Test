@@ -30,8 +30,14 @@ jobs:
           file: ./Dockerfile
           push: true
           tags: ${{ secrets.DOCKERHUB_USERNAME }}/github_ci_cd_test:latest
-      - name: Adding Known Hosts
-        run: ssh-keyscan -H ${{ secrets.SSH_HOST }} >> ~/.ssh/known_hosts
+          
+          
+      - name: Setup SSH Known Hosts
+        run: |
+          mkdir -p -m 0700 ~/.ssh
+
+          ssh-keyscan -t rsa -p 22 ${{ secrets.SSH_HOST }} > ~/.ssh/known_hosts
+          chmod 600 ~/.ssh/known_hosts
 
       - name: Install SSH KEY
         uses: shimataro/ssh-key-action@v2
